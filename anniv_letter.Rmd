@@ -1,0 +1,178 @@
+---
+title: "Anniversary Letter"
+author: "Zain Arifin"
+date: "27 10 2024"
+output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+---
+
+
+```{r setup, echo = FALSE, message = FALSE, warning=FALSE}
+library(tidyverse)
+library(gganimate)
+library(tibble)
+```
+
+
+
+## The Beginning
+
+Hi Babe! It's me, your husbando. One year ago, we started dating. Time flies no? I admit at that time I was very awkward interacting with you. Not because I don’t love you, but rather because I do not know where the boundaries are. Does not help that both of us are introverted and I am on power saving mode 24/7. In the first 2 months, I would say we have a lot of trial and errors. But hey, we went through that :)
+
+## Now
+We are much much better now no? For that, here are my thoughts about you darling (in Shakespearean). Sorry in advance for the nerdiness hehehehehe.
+
+## My love for thee doth rise with fervor unmatched, swelling evermore, as boundless and swift as the stars ascending to eternity (exponential)
+```{r fig.width=6, fig.height=6, fig.align='center', warning=FALSE}
+# Define the data frame with x and y values
+data <- data.frame(x = seq(0, 10, by = 0.1))
+data$y <- exp(data$x)
+
+# Create the plot
+ggplot(data, aes(x = x, y = y)) +
+  geom_line(color = "pink", size = 2) +
+  labs(title = "", x = "Time", y = "My love for Cygnus <3") +
+  theme_minimal()
+```
+
+## My heart, dear love, is shaped in thine own image—crafted to mirror thy beauty and tender, an endless vessel made to hold thee alone (heart plot)
+
+```{r fig.width=6, fig.height=6, fig.align='center', warning=FALSE}
+# Math function
+t <- seq(0, 2 * pi, length.out = 100)
+heart_data <- tibble(
+  x = 16 * sin(t)^3,
+  y = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t),
+  frame = rep(1:10, each = 10)
+)
+
+# Plot
+p <- ggplot(heart_data, aes(x, y)) +
+  geom_path(color = "red", size = 1.5) +
+  theme_minimal() +
+  labs(title = "How I feel aboout you everyday") +
+  theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
+
+# Animate
+animated_heart <- p +
+  transition_reveal(along = frame) +
+  enter_fade() +
+  exit_fade() +
+  ease_aes('linear')
+
+# Render 
+animate(animated_heart, nframes = 50, fps = 50)
+
+```
+
+## In a realm of normal Gaussian distributions of alluring beauties, thou art the singular outlier, radiant and distinct, a rare gem amidst the sea of mediocrity (Gaussian Distribution)
+
+```{r fig.width=6, fig.height=6, fig.align='center', warning=FALSE}
+mean <- 0    
+sd <- 1      
+
+# Generate data for the Gaussian distribution
+x <- seq(-4, 4, length.out = 1000)
+y <- dnorm(x, mean, sd)
+
+data <- data.frame(x, y)
+percentile_99 <- qnorm(0.999, mean, sd)
+
+# Create the plot
+ggplot(data, aes(x, y)) +
+  geom_line(color = "pink", size = 2) +
+  geom_vline(xintercept = percentile_99, linetype = "dashed", color = "red") +
+  geom_text(aes(x = percentile_99, y = 0.02, label = "You are here <3"), 
+            color = "red", vjust = -1) +
+  labs(title = "Gaussian",
+       x = "Value",
+       y = "Density") +
+  theme_minimal()
+
+```
+
+
+## Should I propose that my love be but a fleeting fancy, let it be known, my dear, that I reject that null hypothesis with fervor, for my affection for thee is a truth beyond all reasonable doubt! (Hypothesis testing)
+
+```{r fig.width=6, fig.height=6, fig.align='center', warning=FALSE}
+# Set seed
+set.seed(123)
+
+# Generate two normal distributions
+n <- 100
+dist1 <- rnorm(n, mean = 5, sd = 1)
+dist2 <- rnorm(n, mean = 7, sd = 1)
+
+data <- data.frame(
+  value = c(dist1, dist2),
+  group = rep(c("I dislike you", "Ground Truth"), each = n)
+)
+
+# Perform a t-test to compare the means
+t_test_result <- t.test(dist1, dist2)
+p_value <- t_test_result$p.value
+
+# Create the plot
+ggplot(data, aes(x = value, fill = group)) +
+  geom_density(alpha = 0.5) +
+  geom_vline(aes(xintercept = mean(dist1)), color = "blue", linetype = "dashed", size = 1) +
+  geom_vline(aes(xintercept = mean(dist2)), color = "red", linetype = "dashed", size = 1) +
+  labs(title = paste("Comparison of Two Distributions\n(p-value =", p_value, ")"),
+       x = "Value",
+       y = "Density") +
+  theme_minimal() +
+  scale_fill_manual(values = c("I dislike you" = "blue", "Ground Truth" = "red")) +
+  annotate("text", x = 5, y = 0.3, label = paste("Mean 1:", round(mean(dist1), 2)), color = "black", size = 3) +
+  annotate("text", x = 7, y = 0.3, label = paste("Mean 2:", round(mean(dist2), 2)), color = "black", size = 3)
+
+```
+
+## Dear heart, like the art of PCA, thou dost distill the complexities of my affection, revealing the principal components of my love, where each cherished moment unveils a beauty profound, illuminating the path of our entwined souls.
+
+```{r fig.width=6, fig.height=6, fig.align='center', warning=FALSE}
+set.seed(123)
+n <- 50  
+
+cygnus_data <- data.frame(
+  Group = rep("Cygnus", n),
+  PC1 = rnorm(n, mean = 5, sd = 1),
+  PC2 = rnorm(n, mean = 5, sd = 1)
+)
+other_data <- data.frame(
+  Group = rep("Other", n),
+  PC1 = rnorm(n, mean = 0, sd = 1),
+  PC2 = rnorm(n, mean = 0, sd = 1)
+)
+stuffs_data <- data.frame(
+  Group = rep("Stuffs", n),
+  PC1 = rnorm(n, mean = -5, sd = 1),
+  PC2 = rnorm(n, mean = -5, sd = 1)
+)
+all_data <- rbind(cygnus_data, other_data, stuffs_data)
+
+# Scale the data (excluding the Group column)
+scaled_data <- scale(all_data[, 2:3])
+
+# Perform PCA
+pca_result <- prcomp(scaled_data, center = TRUE, scale. = TRUE)
+pca_df <- data.frame(pca_result$x)
+pca_df$Group <- all_data$Group
+
+# Plot the PCA results
+ggplot(pca_df, aes(x = PC1, y = PC2, color = Group)) +
+  geom_point(size = 3) +
+  labs(title = "PCA of Generated Data",
+       x = "Principal Component 1",
+       y = "Principal Component 2") +
+  theme_minimal()
+
+```
+
+
+## Hope you enjoyed this present my love!
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("cygnus_photo1.jpg")
+```
+
